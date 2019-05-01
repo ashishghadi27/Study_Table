@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "590238604457",
+    "firebase_url": "https://studlars-table.firebaseio.com",
+    "project_id": "studlars-table",
+    "storage_bucket": "studlars-table.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590238604457:android:b673336407814250",
+        "android_client_info": {
+          "package_name": "com.studlarsinc.root.studytable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590238604457-hjk976uhhslnftmrt945rkiqnhn4r4kj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studlarsinc.root.studytable",
+            "certificate_hash": "10a116627157f32f77e6ff412f46898232f16512"
+          }
+        },
+        {
+          "client_id": "590238604457-e3dnaflapiopd8b2ob37glokdtqievej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEwsWLLzpLROAfb_hMkMXBFi07_Dh5F6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590238604457-e3dnaflapiopd8b2ob37glokdtqievej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
