@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context=".Verify">
+
+
+  <com.goodiebag.pinview.Pinview
+    android:id="@+id/pinview"
+    app:pinBackground="@drawable/rounded_edittext"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:pinWidth="40dp"
+    app:pinHeight="40dp"
+    app:pinLength="6"
+    app:cursorVisible="false"
+    app:forceKeyboard="true"
+    app:hint=""
+    app:inputType="number"
+    app:password="false"
+    android:layout_centerVertical="true"/>
+
+  <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="V E R I F Y"
+    android:layout_below="@+id/pinview"
+    android:textColor="#fff"
+    android:textSize="20sp"
+    android:layout_margin="20dp"
+    android:id="@+id/codeverify"
+    android:background="@drawable/rounded_button"/>
+
+
+</RelativeLayout>
