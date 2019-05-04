@@ -20,6 +20,8 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
@@ -33,4 +35,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.GoodieBag:Pinview:v1.3'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.github.VyacheslavMartynenko:CountryCodePickerProject:v2.1.1'
+
+
 }
