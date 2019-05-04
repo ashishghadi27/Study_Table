@@ -4,22 +4,19 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  tools:context=".Verify">
+  tools:context=".Fragments.Verify">
 
 
   <com.goodiebag.pinview.Pinview
     android:id="@+id/pinview"
-    app:pinBackground="@drawable/rounded_edittext"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:pinWidth="40dp"
     app:pinHeight="40dp"
     app:pinLength="6"
-    app:cursorVisible="false"
-    app:forceKeyboard="true"
+    app:cursorVisible="true"
     app:hint=""
     app:inputType="number"
-    app:password="false"
     android:layout_centerVertical="true"/>
 
   <Button

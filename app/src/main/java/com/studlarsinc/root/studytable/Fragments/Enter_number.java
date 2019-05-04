@@ -1,8 +1,9 @@
-package com.studlarsinc.root.studytable;
+package com.studlarsinc.root.studytable.Fragments;
 
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken;
-import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks;
+import com.studlarsinc.root.studytable.R;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +35,7 @@ public class Enter_number extends Fragment {
 
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     final View view = inflater.inflate(R.layout.fragment_enter_number, container, false);
@@ -59,7 +60,7 @@ public class Enter_number extends Fragment {
     String phoneNumber = phone.getText().toString();
     phoneNumber = phoneNumber.replaceAll(" ","");
 
-
+    Log.v("In","here");
 
     if(!phoneNumber.isEmpty() && phoneNumber.length()==10 ){
       phoneNumber = "+91" + phoneNumber;
@@ -69,6 +70,7 @@ public class Enter_number extends Fragment {
           TimeUnit.SECONDS,   // Unit of timeout
           (Activity) Objects.requireNonNull(getContext()),               // Activity (for callback binding)
           mCallbacks);
+      Log.v("In","IF");
     }
     else {
       phone.setError("Enter Proper Phone Number");
@@ -106,7 +108,6 @@ public class Enter_number extends Fragment {
   public void loadFragment(android.support.v4.app.Fragment fragment) {
     FragmentTransaction transaction = getFragmentManager().beginTransaction();
     transaction.replace(R.id.fragment_container, fragment);
-    transaction.addToBackStack(null);
     transaction.commit();
   }
 

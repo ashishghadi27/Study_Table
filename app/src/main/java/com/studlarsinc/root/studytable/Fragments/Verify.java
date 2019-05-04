@@ -1,4 +1,4 @@
-package com.studlarsinc.root.studytable;
+package com.studlarsinc.root.studytable.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.studlarsinc.root.studytable.BroadcastListener.SmsReceiver;
+import com.studlarsinc.root.studytable.Interfaces.SmsListener;
+import com.studlarsinc.root.studytable.R;
 
 
 public class Verify extends Fragment {
@@ -54,10 +58,19 @@ public class Verify extends Fragment {
       }
     });
 
+    SmsReceiver.bindListener(new SmsListener() {
+      @Override
+      public void messageReceived(String messageText) {
+        pinview.setValue(messageText);
+        verifySignInCode();
+      }
+    });
+
     return view;
   }
 
   private void verifySignInCode(){
+
     String code = pinview.getValue();
     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(strtext, code);
     signInWithPhoneAuthCredential(credential);
@@ -70,9 +83,7 @@ public class Verify extends Fragment {
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()) {
-              //here you can open new activity
-              Toast.makeText(getContext(),
-                  "Login Successfull", Toast.LENGTH_LONG).show();
+              loadFragment(new Signup_details());
             } else {
               if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                 Toast.makeText(getContext(),
@@ -81,6 +92,12 @@ public class Verify extends Fragment {
             }
           }
         });
+  }
+
+  private void loadFragment(android.support.v4.app.Fragment fragment) {
+    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+    transaction.replace(R.id.fragment_container, fragment);
+    transaction.commit();
   }
 
 

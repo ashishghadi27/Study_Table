@@ -3,7 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".Enter_number"
+  tools:context=".Fragments.Enter_number"
   android:background="#fff"
   android:orientation="vertical">
 
@@ -27,7 +27,6 @@
     android:hint="Phone Number"
     android:layout_toEndOf="@id/text"
     android:background="@drawable/rounded_edittext"
-    android:layout_gravity="center"
     android:layout_centerVertical="true"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
