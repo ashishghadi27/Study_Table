@@ -3,6 +3,7 @@ package com.studlarsinc.root.studytable.Fragments;
 import static android.Manifest.permission.CAMERA;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,11 +14,20 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.storage.UploadTask.TaskSnapshot;
 import com.studlarsinc.root.studytable.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 import java.io.FileNotFoundException;
@@ -28,9 +38,14 @@ import java.util.Objects;
 public class Signup_details extends Fragment {
 
 
-    CircleImageView userprofileimage;
+    private CircleImageView userprofileimage;
     private static final int CAMERA_REQUEST = 1888,GET_FROM_GALLERY = 27;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private Uri filepath;
+    private StorageReference mStorageRef;
+    private FirebaseAuth mAuth;
+    private String userid, downloadurl;
+
 
 
     @Override
@@ -39,6 +54,9 @@ public class Signup_details extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_signup_details, container, false);
         userprofileimage = view.findViewById(R.id.user_image);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        userid = mAuth.getUid();
         userprofileimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +97,9 @@ public class Signup_details extends Fragment {
                 bottom_sheet_dialog.show();
             }
         });
+
+
+
         return view;
     }
 
@@ -87,14 +108,20 @@ public class Signup_details extends Fragment {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
 
+            Log.v("FILEPATH CAM", String.valueOf(filepath)+"");
+            uploadFile();
             userprofileimage.setImageBitmap(photo);
 
         }
         else if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
+
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getContext()).getContentResolver(), selectedImage);
+                filepath = selectedImage;
+                Log.v("FILEPATH CAM", String.valueOf(filepath)+"");
+                uploadFile();
                 userprofileimage.setImageBitmap(bitmap);
 
 
@@ -125,6 +152,62 @@ public class Signup_details extends Fragment {
 
 
     }
+
+    private void uploadFile() {
+        //if there is a file to upload
+        if (filepath != null) {
+            //displaying a progress dialog while upload is going on
+            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+
+            StorageReference riversRef = mStorageRef.child("userprofile/"+userid);
+            riversRef.putFile(filepath)
+                .addOnSuccessListener(new OnSuccessListener<TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //if the upload is successfull
+                        //hiding the progress dialog
+                        progressDialog.dismiss();
+                        downloadurl = mStorageRef.getDownloadUrl().toString();
+                        Log.v("DOWNLOAD", downloadurl);
+                        //and displaying a success toast
+                        Toast.makeText(getContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        //if the upload is not successfull
+                        //hiding the progress dialog
+                        progressDialog.dismiss();
+
+                        //and displaying error message
+                        Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        //calculating progress percentage
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                        //displaying percentage in progress dialog
+                        progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                    }
+                });
+
+
+
+        }
+        else {
+        //if there is not any file
+            Toast.makeText(getContext(),"File path empty", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
 
 
 

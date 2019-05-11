@@ -30,7 +30,7 @@
                 android:width="1.5dp"
                 android:color="#94673AB7" />
             <corners
-                android:radius="2dp" />
+                android:radius="5dp" />
         </shape>
     </item>
 
@@ -46,7 +46,7 @@
                 android:width="1.5dp"
                 android:color="#BDBDBD" />
             <corners
-                android:radius="2dp" />
+                android:radius="5dp" />
         </shape>
     </item>
 

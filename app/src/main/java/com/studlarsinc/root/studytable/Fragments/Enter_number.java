@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken;
+import com.hbb20.CountryCodePicker;
 import com.studlarsinc.root.studytable.R;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -27,10 +28,12 @@ public class Enter_number extends Fragment {
   private EditText phone;
   private Button verify;
   private String codesent;
+  private CountryCodePicker ccp;
+  private String Countrycode;
 
   private FirebaseAuth mAuth;
   public Enter_number() {
-    // Required empty public constructor
+
   }
 
 
@@ -42,8 +45,8 @@ public class Enter_number extends Fragment {
 
     phone = view.findViewById(R.id.phone_number);
     verify = view.findViewById(R.id.verify);
+    ccp = view.findViewById(R.id.ccp);
     mAuth = FirebaseAuth.getInstance();
-
 
     verify.setOnClickListener(new OnClickListener() {
       @Override
@@ -63,7 +66,9 @@ public class Enter_number extends Fragment {
     Log.v("In","here");
 
     if(!phoneNumber.isEmpty() && phoneNumber.length()==10 ){
-      phoneNumber = "+91" + phoneNumber;
+      Countrycode = ccp.getSelectedCountryCode();
+      phoneNumber = "+"+Countrycode + phoneNumber;
+      Log.v("CODE",Countrycode+"");
       PhoneAuthProvider.getInstance().verifyPhoneNumber(
           phoneNumber,        // Phone number to verify
           60,                 // Timeout duration
@@ -97,7 +102,6 @@ public class Enter_number extends Fragment {
       Log.v("Code",s);
       Bundle bundle=new Bundle();
       bundle.putString("message", s);
-      //set Fragmentclass Arguments
       Verify fragobj=new Verify();
       fragobj.setArguments(bundle);
       loadFragment(fragobj);

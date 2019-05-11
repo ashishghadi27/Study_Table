@@ -5,8 +5,8 @@
       <!--make a gradient background-->
       <gradient
         android:type="linear"
-        android:startColor="#d3d3d3"
-        android:endColor="#d3d3d3"
+        android:startColor="#F1EDF3"
+        android:endColor="#F1EDF3"
         android:angle="1800"
         android:gradientRadius="180"
         />

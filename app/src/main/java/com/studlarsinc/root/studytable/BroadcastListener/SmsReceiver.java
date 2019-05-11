@@ -11,7 +11,6 @@ import com.studlarsinc.root.studytable.Interfaces.SmsListener;
 public class SmsReceiver extends BroadcastReceiver {
 
   private static SmsListener mListener;
-  Boolean b;
   String abcd, xyz;
 
   public static void bindListener(SmsListener listener) {
@@ -25,11 +24,19 @@ public class SmsReceiver extends BroadcastReceiver {
     for (int i = 0; i < pdus.length; i++) {
       SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
       String sender = smsMessage.getDisplayOriginatingAddress();
-      //b=sender.endsWith("WNRCRP");  //Just to fetch otp sent from WNRCRP
-      String messageBody = smsMessage.getMessageBody();
-      abcd = messageBody.replaceAll("[^0-9]", "");
-      Log.v("OTP",abcd+"");
-      mListener.messageReceived(abcd);
+      try {
+        String messageBody = smsMessage.getMessageBody();
+        abcd = messageBody.replaceAll("[^0-9]", "");
+        Log.v("OTP",abcd+"");
+        if(abcd.length() == 6){
+          mListener.messageReceived(abcd);
+        }
+
+      }catch (Exception e){
+        Log.v("ERROR", "SERIOUS");
+      }
+
+
     }
   }
 }
